@@ -1,0 +1,25 @@
+{
+    "name": "zenith",
+    "version": "1.0.0",
+    "description": "Professional hotkey remapping and keyboard customization",
+    "main": "src/main.js",
+    "homepage": "./",
+    "scripts": {
+        "start": "electron .",
+        "dev": "electron . --inspect=5858",
+        "build": "electron-builder"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "electron": "^28.3.3",
+        "electron-builder": "^24.13.3"
+    },
+    "keywords": [
+        "copilot",
+        "hotkey",
+        "remapper",
+        "tray"
+    ],
+    "author": "Your Name",
+    "license": "MIT"
+}

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenith — Copilot Hotkey Remapper</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header class="title-bar">
+        <div class="title-bar-brand">
+            <svg width="20" height="20" viewBox="0 0 505 505" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M479.5 2.5H25.5C12.7975 2.5 2.5 12.7974 2.5 25.5V120.014C2.5 132.716 12.7975 143.014 25.5 143.014H205.625L9.27538 338.429C4.93829 342.746 2.5 348.612 2.5 354.731V479.5C2.5 492.203 12.7974 502.5 25.5 502.5H136.974C143.113 502.5 148.998 500.045 153.318 495.682L495.844 149.736C500.108 145.43 502.5 139.614 502.5 133.554V25.5C502.5 12.7975 492.203 2.5 479.5 2.5Z"
+                    stroke="white" stroke-width="10" />
+                <path
+                    d="M341.483 479.5V368.172C341.483 355.47 351.78 345.172 364.483 345.172H477.381C490.084 345.172 500.381 355.47 500.381 368.172V479.5C500.381 492.203 490.084 502.5 477.381 502.5H364.483C351.781 502.5 341.483 492.203 341.483 479.5Z"
+                    stroke="white" stroke-width="10" />
+            </svg>
+        </div>
+
+        <div class="title-bar-hotkey">
+            <span class="hotkey-pill" title="Trigger Shortcut: Win + C / Copilot">
+                <kbd class="kbd-key">
+                    <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M0 0h7.11v7.11H0zm8.89 0H16v7.11H8.89zM0 8.89h7.11V16H0zm8.89 0H16V16H8.89z" />
+                    </svg>
+                    <span>Win</span>
+                </kbd>
+                <span class="hotkey-sep">+</span>
+                <kbd class="kbd-key">C</kbd>
+                <span class="hotkey-sep">/</span>
+                <kbd class="kbd-key">
+                    <span class="copilot-badge-icon">
+                        <svg width="13" height="13" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M4.38291 0.726465C4.30439 0.458105 4.05713 0.272949 3.77705 0.272949H3.59307C3.28838 0.272949 3.02705 0.490918 2.97197 0.790918L2.65674 2.51123L2.73525 2.24287C2.81377 1.97334 3.06104 1.78818 3.34111 1.78818H4.41221L4.86104 1.96279L5.29346 1.78818H5.16807C4.88799 1.78818 4.64072 1.60303 4.56221 1.33467L4.38291 0.726465Z"
+                                fill="url(#paint0_radial_363_51)" />
+                            <path
+                                d="M1.68174 5.27119C1.76025 5.54072 2.00752 5.72705 2.28877 5.72705H2.68018C3.02236 5.72705 3.30244 5.454 3.31182 5.11182L3.354 3.45361L3.26494 3.7583C3.18643 4.02783 2.93916 4.21182 2.65908 4.21182H1.57861L1.19307 4.00322L0.775879 4.21182H0.900098C1.18135 4.21182 1.42861 4.39814 1.50713 4.66768L1.68174 5.27119Z"
+                                fill="url(#paint1_radial_363_51)" />
+                            <path
+                                d="M3.75002 0.272949H1.5633C0.937523 0.272949 0.562523 1.09795 0.312913 1.92412C0.0164289 2.90264 -0.37029 4.21162 0.750023 4.21162H1.69455C1.97698 4.21162 2.22424 4.02529 2.30159 3.75342C2.46565 3.1792 2.75393 2.17725 2.9801 1.41436C3.09494 1.02646 3.19104 0.693652 3.33752 0.48623C3.42073 0.370215 3.55784 0.272949 3.75002 0.272949Z"
+                                fill="url(#paint2_linear_363_51)" />
+                            <path
+                                d="M3.75002 0.272949H1.5633C0.937523 0.272949 0.562523 1.09795 0.312913 1.92412C0.016429 2.90264 -0.37029 4.21162 0.750023 4.21162H1.69455C1.97698 4.21162 2.22424 4.02529 2.30159 3.75342C2.46565 3.1792 2.75393 2.17725 2.9801 1.41436C3.09494 1.02646 3.19104 0.693652 3.33752 0.48623C3.42073 0.370215 3.55783 0.272949 3.75002 0.272949Z"
+                                fill="url(#paint3_linear_363_51)" />
+                            <path
+                                d="M2.25 5.72695H4.43789C5.0625 5.72695 5.4375 4.90078 5.68828 4.07461C5.98477 3.09609 6.37148 1.78711 5.25117 1.78711H4.30664C4.02422 1.78711 3.77695 1.97344 3.69961 2.24531C3.53555 2.81953 3.24727 3.82266 3.02109 4.58555C2.90625 4.97344 2.81016 5.30625 2.66367 5.51367C2.5793 5.62969 2.44219 5.72695 2.25 5.72695Z"
+                                fill="url(#paint4_radial_363_51)" />
+                            <path
+                                d="M2.25 5.72695H4.43789C5.0625 5.72695 5.4375 4.90078 5.68828 4.07461C5.98477 3.09609 6.37148 1.78711 5.25117 1.78711H4.30664C4.02422 1.78711 3.77695 1.97344 3.69961 2.24531C3.53555 2.81953 3.24727 3.82266 3.02109 4.58555C2.90625 4.97344 2.81016 5.30625 2.66367 5.51367C2.5793 5.62969 2.44219 5.72695 2.25 5.72695Z"
+                                fill="url(#paint5_linear_363_51)" />
+                            <defs>
+                                <radialGradient id="paint0_radial_363_51" cx="0" cy="0" r="1"
+                                    gradientUnits="userSpaceOnUse"
+                                    gradientTransform="translate(4.91063 2.52488) rotate(-129.304) scale(2.35967 2.21884)">
+                                    <stop offset="0.096" stop-color="#00AEFF" />
+                                    <stop offset="0.773" stop-color="#2253CE" />
+                                    <stop offset="1" stop-color="#0736C4" />
+                                </radialGradient>
+                                <radialGradient id="paint1_radial_363_51" cx="0" cy="0" r="1"
+                                    gradientUnits="userSpaceOnUse"
+                                    gradientTransform="translate(1.24384 4.20269) rotate(51.84) scale(2.18074 2.11537)">
+                                    <stop stop-color="#FFB657" />
+                                    <stop offset="0.634" stop-color="#FF5F3D" />
+                                    <stop offset="0.923" stop-color="#C02B3C" />
+                                </radialGradient>
+                                <linearGradient id="paint2_linear_363_51" x1="1.77505" y1="0.720113" x2="2.08712"
+                                    y2="4.33057" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0.156" stop-color="#0D91E1" />
+                                    <stop offset="0.487" stop-color="#52B471" />
+                                    <stop offset="0.652" stop-color="#98BD42" />
+                                    <stop offset="0.937" stop-color="#FFC800" />
+                                </linearGradient>
+                                <linearGradient id="paint3_linear_363_51" x1="1.80614" y1="0.268074" x2="1.97652"
+                                    y2="4.20631" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#3DCBFF" />
+                                    <stop offset="0.247" stop-color="#0588F7" stop-opacity="0" />
+                                </linearGradient>
+                                <radialGradient id="paint4_radial_363_51" cx="0" cy="0" r="1"
+                                    gradientUnits="userSpaceOnUse"
+                                    gradientTransform="translate(5.36185 1.40187) rotate(109.274) scale(5.23492 6.27126)">
+                                    <stop offset="0.066" stop-color="#8C48FF" />
+                                    <stop offset="0.5" stop-color="#F2598A" />
+                                    <stop offset="0.896" stop-color="#FFB152" />
+                                </radialGradient>
+                                <linearGradient id="paint5_linear_363_51" x1="4.13105" y1="1.54417" x2="4.12881"
+                                    y2="2.61724" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0.058" stop-color="#F8ADFA" />
+                                    <stop offset="0.708" stop-color="#A86EDD" stop-opacity="0" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </span>
+                </kbd>
+            </span>
+        </div>
+
+        <div class="title-bar-controls">
+            <button id="minimizeBtn" class="control-btn minimize-btn" title="Minimize" aria-label="Minimize">
+                <svg width="12" height="2" viewBox="0 0 12 2">
+                    <rect width="12" height="2" rx="1" fill="currentColor" />
+                </svg>
+            </button>
+            <button id="closeBtn" class="control-btn close-btn" title="Close" aria-label="Close">
+                <svg width="10" height="10" viewBox="0 0 10 10">
+                    <path d="M1 1L9 9M9 1L1 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <div class="app-hero">
+            <div class="hero-top-row">
+                <div class="hero-content">
+                    <h1 class="hero-title">Remap Copilot Key</h1>
+                    <p class="hero-description">Configure single, double, and long press actions for Copilot & Win + C.</p>
+                </div>
+
+                <div class="profile-selector-box">
+                    <span class="profile-label">Profile:</span>
+                    <select id="profileSelect" class="profile-select" aria-label="Active Profile"></select>
+                </div>
+            </div>
+        </div>
+
+        <main class="app-main">
+            <div class="settings-grid">
+                <section class="card status-card">
+                    <div class="card-left">
+                        <div class="status-icon-box">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+                                <line x1="12" y1="2" x2="12" y2="12"></line>
+                            </svg>
+                        </div>
+                        <div class="card-text">
+                            <span class="card-title">Background Hook</span>
+                            <span class="card-desc">Intercepts Copilot key & Win + C</span>
+                        </div>
+                    </div>
+
+                    <div class="status-action-wrapper">
+                        <div class="status-badge" id="statusBadge">
+                            <span class="status-dot"></span>
+                            <span id="statusText">Active</span>
+                        </div>
+                        <label class="toggle-switch" for="enabledToggle">
+                            <input type="checkbox" id="enabledToggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </section>
+
+                <section class="card status-card">
+                    <div class="card-left">
+                        <div class="status-icon-box">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                        </div>
+                        <div class="card-text">
+                            <span class="card-title">Start with Windows</span>
+                            <span class="card-desc">Run quietly in system tray</span>
+                        </div>
+                    </div>
+
+                    <div class="status-action-wrapper">
+                        <label class="toggle-switch" for="autoStartToggle">
+                            <input type="checkbox" id="autoStartToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </section>
+            </div>
+
+            <section class="section-block">
+                <div class="trigger-tabs-bar">
+                    <div class="section-title">Trigger Gesture</div>
+                    <div class="trigger-tabs-segmented" role="tablist">
+                        <button type="button" class="trigger-tab active" id="tabSinglePress" data-trigger="singlePress" role="tab" aria-selected="true">
+                            <span>Single Press</span>
+                        </button>
+                        <button type="button" class="trigger-tab" id="tabDoublePress" data-trigger="doublePress" role="tab" aria-selected="false">
+                            <span>Double Press</span>
+                        </button>
+                        <button type="button" class="trigger-tab" id="tabLongPress" data-trigger="longPress" role="tab" aria-selected="false">
+                            <span>Long Press</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="radio-cards-grid">
+                    <label class="radio-card" id="cardZenith">
+                        <input type="radio" name="action" value="zenith" checked>
+                        <div class="radio-card-content">
+                            <div class="radio-card-icon">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="3"></rect>
+                                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                                    <line x1="9" y1="21" x2="9" y2="9"></line>
+                                </svg>
+                            </div>
+                            <div class="radio-card-info">
+                                <span class="radio-title">Zenith</span>
+                                <span class="radio-desc">Open Settings</span>
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="radio-card" id="cardApp">
+                        <input type="radio" name="action" value="app">
+                        <div class="radio-card-content">
+                            <div class="radio-card-icon">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="3" width="20" height="14" rx="3"></rect>
+                                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                                </svg>
+                            </div>
+                            <div class="radio-card-info">
+                                <span class="radio-title">Application</span>
+                                <span class="radio-desc">Launch Program</span>
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="radio-card" id="cardCommand">
+                        <input type="radio" name="action" value="command">
+                        <div class="radio-card-content">
+                            <div class="radio-card-icon">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="4 17 10 11 4 5"></polyline>
+                                    <line x1="12" y1="19" x2="20" y2="19"></line>
+                                </svg>
+                            </div>
+                            <div class="radio-card-info">
+                                <span class="radio-title">Command</span>
+                                <span class="radio-desc">Terminal / Shell</span>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </section>
+
+            <section class="section-block">
+                <div class="section-header">
+                    <h2 class="section-title" id="section2Title">Configuration</h2>
+                </div>
+
+                <div class="card detail-card" id="zenithView">
+                    <div class="zenith-info-box">
+                        <div class="zenith-spark-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="3"></rect>
+                                <line x1="3" y1="9" x2="21" y2="9"></line>
+                                <line x1="9" y1="21" x2="9" y2="9"></line>
+                            </svg>
+                        </div>
+                        <div class="zenith-info-text">
+                            <span class="zenith-info-heading">Open Zenith Interface</span>
+                            <span class="zenith-info-desc">Pressing this gesture will bring Zenith to the foreground and focus it.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="app-select-container" id="appPickerView" style="display: none;">
+                    <div class="app-select-trigger" id="appSelectTrigger" role="button" tabindex="0" aria-haspopup="listbox" aria-expanded="false">
+                        <div class="app-select-trigger-content" id="triggerContent">
+                            <span class="app-select-placeholder" id="triggerPlaceholder">Select an Application...</span>
+                            <div class="app-select-selected-info" id="triggerSelectedInfo" style="display: none;">
+                                <div class="app-trigger-icon-box" id="triggerIconBox">
+                                    <img class="app-trigger-icon" id="triggerAppIcon" src="" alt="">
+                                </div>
+                                <div class="app-trigger-text">
+                                    <span class="app-trigger-name" id="triggerAppName">Application Name</span>
+                                    <span class="app-trigger-publisher" id="triggerAppPublisher">Company Name</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="app-select-chevron" id="triggerChevron">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="7 15 12 20 17 15"></polyline>
+                                <polyline points="7 9 12 4 17 9"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="app-select-dropdown" id="appSelectDropdown" style="display: none;">
+                        <div class="dropdown-search-wrapper">
+                            <div class="dropdown-search-icon">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                            </div>
+                            <input type="text" id="appSearchInput" class="dropdown-search-input" placeholder="Search applications..." autocomplete="off" spellcheck="false">
+                            <span class="dropdown-count-tag" id="appCountTag">0 applications</span>
+                        </div>
+
+                        <div class="app-select-list" id="appListContainer" role="listbox">
+                            <div class="app-list-loading" id="appListLoading">
+                                <div class="spinner"></div>
+                                <span>Loading installed applications...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card detail-card" id="commandView" style="display: none;">
+                    <div class="shell-toggle-row">
+                        <span class="shell-label">Shell:</span>
+                        <div class="shell-segmented-switch">
+                            <button type="button" class="shell-pill active" id="cmdPill" data-shell="cmd">
+                                <span>CMD</span>
+                            </button>
+                            <button type="button" class="shell-pill" id="psPill" data-shell="powershell">
+                                <span>PowerShell</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="input-wrapper">
+                        <div class="input-prefix-icon" id="promptIcon">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </div>
+                        <input type="text" id="actionValue" placeholder="e.g. wt.exe, notepad.exe, or explorer.exe" class="input-field" spellcheck="false" autocomplete="off">
+                    </div>
+
+                    <div class="input-meta">
+                        <small id="helpText" class="help-text">
+                            Enter an executable name or system command to execute in CMD.
+                        </small>
+                    </div>
+
+                    <div class="quick-presets" id="quickPresets">
+                        <span class="preset-label">Presets:</span>
+                        <button type="button" class="preset-chip" data-val="start explorer.exe">File Explorer</button>
+                        <button type="button" class="preset-chip" data-val="notepad.exe">Notepad</button>
+                        <button type="button" class="preset-chip" data-val="wt.exe">Windows Terminal</button>
+                        <button type="button" class="preset-chip" data-val="taskmgr.exe">Task Manager</button>
+                        <button type="button" class="preset-chip" data-val="calc.exe">Calculator</button>
+                    </div>
+                </div>
+            </section>
+
+            <div class="action-footer">
+                <button id="testBtn" class="btn-secondary" type="button">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <span>Test Action</span>
+                </button>
+
+                <button id="saveBtn" class="btn-primary" type="button">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                        <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                        <polyline points="7 3 7 8 15 8"></polyline>
+                    </svg>
+                    <span>Save Changes</span>
+                </button>
+            </div>
+
+            <div id="statusMessage" class="status-message" role="alert"></div>
+        </main>
+
+        <footer class="app-footer">
+            <div class="footer-tip">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span>Zenith runs quietly in the system tray in the background.</span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
