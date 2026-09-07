@@ -1,6 +1,6 @@
 {
   "name": "zenith",
-  "version": "1.0.0",
+  "version": "1.4.0",
   "description": "Professional hotkey remapping and keyboard customization",
   "main": "src/main.js",
   "homepage": "./",
@@ -31,6 +31,9 @@
       "assets/**/*",
       "package.json"
     ],
+    "asarUnpack": [
+      "src/get-apps.ps1"
+    ],
     "win": {
       "target": [
         {
@@ -56,6 +59,8 @@
       "createStartMenuShortcut": true,
       "shortcutName": "Zenith",
       "uninstallDisplayName": "Zenith",
+      "installerSidebar": "assets/installerSidebar.bmp",
+      "uninstallerSidebar": "assets/installerSidebar.bmp",
       "artifactName": "Zenith-Setup-${version}.exe"
     },
     "portable": {

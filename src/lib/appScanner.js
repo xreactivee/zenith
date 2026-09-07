@@ -28,7 +28,24 @@ function getInstalledApps() {
     }
 
     return new Promise((resolve) => {
-        const psScriptPath = path.join(__dirname, '..', 'get-apps.ps1');
+        const configDir = (app && typeof app.getPath === 'function')
+            ? app.getPath('userData')
+            : path.join(process.env.APPDATA || '.', 'zenith');
+
+        if (!fs.existsSync(configDir)) {
+            fs.mkdirSync(configDir, { recursive: true });
+        }
+
+        const psScriptPath = path.join(configDir, 'get-apps.ps1');
+        const sourcePath = path.join(__dirname, '..', 'get-apps.ps1');
+
+        try {
+            const scriptContent = fs.readFileSync(sourcePath, 'utf8');
+            fs.writeFileSync(psScriptPath, scriptContent, 'utf8');
+        } catch (readErr) {
+            console.error('Error preparing get-apps.ps1:', readErr);
+        }
+
         const ps = spawn('powershell.exe', [
             '-NoProfile',
             '-ExecutionPolicy', 'Bypass',
