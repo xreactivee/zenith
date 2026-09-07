@@ -1,25 +1,73 @@
 {
-    "name": "zenith",
-    "version": "1.0.0",
-    "description": "Professional hotkey remapping and keyboard customization",
-    "main": "src/main.js",
-    "homepage": "./",
-    "scripts": {
-        "start": "electron .",
-        "dev": "electron . --inspect=5858",
-        "build": "electron-builder"
+  "name": "zenith",
+  "version": "1.0.0",
+  "description": "Professional hotkey remapping and keyboard customization",
+  "main": "src/main.js",
+  "homepage": "./",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --inspect=5858",
+    "build": "electron-builder --win",
+    "build:installer": "electron-builder --win nsis",
+    "build:portable": "electron-builder --win portable",
+    "build:all": "electron-builder --win nsis portable"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^28.3.3",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.zenith.app",
+    "productName": "Zenith",
+    "copyright": "Copyright © 2026",
+    "directories": {
+      "output": "dist",
+      "buildResources": "assets"
     },
-    "dependencies": {},
-    "devDependencies": {
-        "electron": "^28.3.3",
-        "electron-builder": "^24.13.3"
-    },
-    "keywords": [
-        "copilot",
-        "hotkey",
-        "remapper",
-        "tray"
+    "files": [
+      "src/**/*",
+      "renderer/**/*",
+      "assets/**/*",
+      "package.json"
     ],
-    "author": "Your Name",
-    "license": "MIT"
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Zenith",
+      "uninstallDisplayName": "Zenith",
+      "artifactName": "Zenith-Setup-${version}.exe"
+    },
+    "portable": {
+      "artifactName": "Zenith-Portable-${version}.exe"
+    }
+  },
+  "keywords": [
+    "copilot",
+    "hotkey",
+    "remapper",
+    "tray"
+  ],
+  "author": "Zenith Team",
+  "license": "MIT"
 }
