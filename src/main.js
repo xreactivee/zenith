@@ -1,6 +1,20 @@
 const { app, ipcMain } = require('electron');
 const { ok, created, badRequest, internalError } = require('./lib/response');
-const { loadConfig, saveConfig, getActiveProfile } = require('./lib/config');
+const {
+    loadConfig,
+    saveConfig,
+    getActiveProfile,
+    createProfile,
+    renameProfile,
+    deleteProfile
+} = require('./lib/config');
+const {
+    getLocalSession,
+    loginUser,
+    registerUser,
+    logoutUser,
+    upgradeUserToPro
+} = require('./lib/auth');
 const { setupHotkey, stopHotkeyListener } = require('./lib/hotkey');
 const { executeAction } = require('./lib/executor');
 const { getInstalledApps } = require('./lib/appScanner');
@@ -9,15 +23,28 @@ const {
     showWindow,
     minimizeWindow,
     closeWindow,
+    createSplashWindow,
+    closeSplashWindow,
+    getSplashWindow,
     setIsQuitting,
     getMainWindow
 } = require('./lib/window');
 const { createTray, updateTray, destroyTray } = require('./lib/tray');
+const {
+    checkStartupUpdate,
+    startBackgroundUpdateChecker,
+    installUpdate,
+    getUpdateInfo
+} = require('./lib/updater');
 
 let currentConfig = loadConfig();
 
 function handleTrigger(triggerType) {
     if (!currentConfig || !currentConfig.enabled) {
+        return;
+    }
+    const session = getLocalSession();
+    if (session.plan !== 'pro' && triggerType !== 'singlePress') {
         return;
     }
     const profile = getActiveProfile(currentConfig);
@@ -101,6 +128,49 @@ function setupIpcHandlers() {
         }
     });
 
+    ipcMain.handle('create-profile', (event, name) => {
+        try {
+            const session = getLocalSession();
+            const saved = createProfile(name, session.plan || 'free');
+            if (saved) {
+                currentConfig = saved;
+                updateTray(currentConfig, handleProfileChange);
+                return created(saved);
+            }
+            return badRequest('Failed to create profile');
+        } catch (error) {
+            return badRequest(error.message);
+        }
+    });
+
+    ipcMain.handle('rename-profile', (event, profileId, name) => {
+        try {
+            const saved = renameProfile(profileId, name);
+            if (saved) {
+                currentConfig = saved;
+                updateTray(currentConfig, handleProfileChange);
+                return ok(saved);
+            }
+            return badRequest('Failed to rename profile');
+        } catch (error) {
+            return badRequest(error.message);
+        }
+    });
+
+    ipcMain.handle('delete-profile', (event, profileId) => {
+        try {
+            const saved = deleteProfile(profileId);
+            if (saved) {
+                currentConfig = saved;
+                updateTray(currentConfig, handleProfileChange);
+                return ok(saved);
+            }
+            return badRequest('Failed to delete profile');
+        } catch (error) {
+            return badRequest(error.message);
+        }
+    });
+
     ipcMain.handle('set-auto-start', (event, enabled) => {
         try {
             currentConfig.autoStart = Boolean(enabled);
@@ -110,14 +180,102 @@ function setupIpcHandlers() {
             return internalError(error.message);
         }
     });
+
+    ipcMain.handle('auth-login', async (event, credentials) => {
+        try {
+            const session = await loginUser(credentials.email, credentials.password);
+            return ok(session);
+        } catch (error) {
+            return badRequest(error.message);
+        }
+    });
+
+    ipcMain.handle('auth-register', async (event, credentials) => {
+        try {
+            const session = await registerUser(credentials.email, credentials.password);
+            return created(session);
+        } catch (error) {
+            return badRequest(error.message);
+        }
+    });
+
+    ipcMain.handle('auth-logout', () => {
+        try {
+            const result = logoutUser();
+            return ok(result);
+        } catch (error) {
+            return internalError(error.message);
+        }
+    });
+
+    ipcMain.handle('auth-get-session', () => {
+        try {
+            const session = getLocalSession();
+            return ok(session);
+        } catch (error) {
+            return internalError(error.message);
+        }
+    });
+
+    ipcMain.handle('auth-upgrade-pro', async () => {
+        try {
+            const updated = await upgradeUserToPro();
+            return ok(updated);
+        } catch (error) {
+            return internalError(error.message);
+        }
+    });
+
+    ipcMain.handle('updater-install', () => {
+        try {
+            installUpdate();
+            return ok({ installing: true });
+        } catch (error) {
+            return internalError(error.message);
+        }
+    });
+
+    ipcMain.handle('updater-check', () => {
+        try {
+            const info = getUpdateInfo();
+            return ok(info);
+        } catch (error) {
+            return internalError(error.message);
+        }
+    });
 }
 
 app.on('ready', () => {
     setupIpcHandlers();
-    createWindow();
+    createWindow({ show: false });
     createTray(currentConfig, handleProfileChange);
     setupHotkey(currentConfig, handleTrigger);
     getInstalledApps();
+
+    const splash = createSplashWindow();
+
+    checkStartupUpdate({
+        onStatus: (text) => {
+            if (splash && !splash.isDestroyed() && splash.webContents) {
+                splash.webContents.send('splash-status', text);
+            }
+        },
+        onProgress: (percent) => {
+            if (splash && !splash.isDestroyed() && splash.webContents) {
+                splash.webContents.send('splash-progress', percent);
+            }
+        },
+        onDone: () => {
+            closeSplashWindow();
+            showWindow();
+            startBackgroundUpdateChecker((info) => {
+                const win = getMainWindow();
+                if (win && !win.isDestroyed() && win.webContents) {
+                    win.webContents.send('update-ready', info);
+                }
+            });
+        }
+    });
 });
 
 app.on('before-quit', () => {

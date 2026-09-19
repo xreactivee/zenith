@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenith Updater</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="splash.css">
+</head>
+
+<body>
+    <div class="splash-container">
+        <div class="splash-brand-wrap">
+            <div class="splash-logo-glow"></div>
+            <div class="splash-logo-box">
+                <svg width="48" height="48" viewBox="0 0 505 505" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M479.5 2.5H25.5C12.7975 2.5 2.5 12.7974 2.5 25.5V120.014C2.5 132.716 12.7975 143.014 25.5 143.014H205.625L9.27538 338.429C4.93829 342.746 2.5 348.612 2.5 354.731V479.5C2.5 492.203 12.7974 502.5 25.5 502.5H136.974C143.113 502.5 148.998 500.045 153.318 495.682L495.844 149.736C500.108 145.43 502.5 139.614 502.5 133.554V25.5C502.5 12.7975 492.203 2.5 479.5 2.5Z"
+                        stroke="white" stroke-width="12" />
+                    <path
+                        d="M341.483 479.5V368.172C341.483 355.47 351.78 345.172 364.483 345.172H477.381C490.084 345.172 500.381 355.47 500.381 368.172V479.5C500.381 492.203 490.084 502.5 477.381 502.5H364.483C351.781 502.5 341.483 492.203 341.483 479.5Z"
+                        stroke="white" stroke-width="12" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="splash-meta">
+            <h1 class="splash-title">ZENITH</h1>
+            <span class="splash-badge">HOTKEY REMAPPER</span>
+        </div>
+
+        <div class="splash-status-section">
+            <div class="splash-status-row">
+                <span id="splashStatusText" class="splash-status-text">Checking for updates...</span>
+                <span id="splashPercentText" class="splash-percent-text"></span>
+            </div>
+
+            <div class="splash-progress-track">
+                <div id="splashProgressBar" class="splash-progress-bar indeterminate"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="splash.js"></script>
+</body>
+
+</html>

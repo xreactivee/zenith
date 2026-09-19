@@ -57,27 +57,6 @@ const defaultConfig = {
                     commandType: 'cmd'
                 }
             }
-        },
-        {
-            id: 'gaming',
-            name: 'Gaming',
-            triggers: {
-                singlePress: {
-                    action: 'command',
-                    actionValue: 'calc.exe',
-                    commandType: 'cmd'
-                },
-                doublePress: {
-                    action: 'zenith',
-                    actionValue: '',
-                    commandType: 'cmd'
-                },
-                longPress: {
-                    action: 'command',
-                    actionValue: 'taskmgr.exe',
-                    commandType: 'cmd'
-                }
-            }
         }
     ],
     autoStart: false,
@@ -197,10 +176,60 @@ function getActiveProfile(config) {
     return active || currentConfig.profiles[0] || defaultConfig.profiles[0];
 }
 
+function createProfile(name, plan = 'free') {
+    const current = loadConfig();
+    if (plan !== 'pro' && current.profiles.length >= 2) {
+        throw new Error('Free plan allows up to 2 profiles. Upgrade to Pro for unlimited profiles.');
+    }
+    const cleanName = String(name || '').trim() || `Profile ${current.profiles.length + 1}`;
+    const newId = `profile_${Date.now()}`;
+    const newProfile = {
+        id: newId,
+        name: cleanName,
+        triggers: {
+            singlePress: { action: 'zenith', actionValue: '', commandType: 'cmd' },
+            doublePress: { action: 'command', actionValue: 'start explorer.exe', commandType: 'cmd' },
+            longPress: { action: 'command', actionValue: 'taskmgr.exe', commandType: 'cmd' }
+        }
+    };
+    current.profiles.push(newProfile);
+    current.activeProfileId = newId;
+    return saveConfig(current);
+}
+
+function renameProfile(profileId, newName) {
+    const current = loadConfig();
+    const cleanName = String(newName || '').trim();
+    if (!cleanName) {
+        throw new Error('Profile name cannot be empty');
+    }
+    const target = current.profiles.find((p) => p.id === profileId);
+    if (!target) {
+        throw new Error('Profile not found');
+    }
+    target.name = cleanName;
+    return saveConfig(current);
+}
+
+function deleteProfile(profileId) {
+    const current = loadConfig();
+    if (current.profiles.length <= 1) {
+        throw new Error('Cannot delete the only remaining profile');
+    }
+    current.profiles = current.profiles.filter((p) => p.id !== profileId);
+    if (current.activeProfileId === profileId) {
+        current.activeProfileId = current.profiles[0].id;
+    }
+    return saveConfig(current);
+}
+
 module.exports = {
     defaultConfig,
     loadConfig,
     saveConfig,
     getActiveProfile,
-    applyAutoStartSetting
+    applyAutoStartSetting,
+    createProfile,
+    renameProfile,
+    deleteProfile
 };

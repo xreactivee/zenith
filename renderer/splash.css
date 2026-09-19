@@ -1,0 +1,169 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #09090b;
+    color: #ffffff;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    user-select: none;
+    -webkit-app-region: drag;
+}
+
+.splash-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.04) 0%, rgba(9, 9, 11, 0.98) 75%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 20px 50px rgba(0, 0, 0, 0.9);
+}
+
+.splash-brand-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.splash-logo-glow {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 70%);
+    filter: blur(12px);
+    animation: glowPulse 2.8s ease-in-out infinite alternate;
+}
+
+@keyframes glowPulse {
+    from {
+        opacity: 0.35;
+        transform: scale(0.85);
+    }
+    to {
+        opacity: 0.85;
+        transform: scale(1.15);
+    }
+}
+
+.splash-logo-box {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: floatIcon 3.2s ease-in-out infinite alternate;
+}
+
+@keyframes floatIcon {
+    from {
+        transform: translateY(-2px);
+    }
+    to {
+        transform: translateY(3px);
+    }
+}
+
+.splash-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 28px;
+}
+
+.splash-title {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.15);
+}
+
+.splash-badge {
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.04);
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.splash-status-section {
+    width: 100%;
+    max-width: 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.splash-status-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11.5px;
+    font-weight: 500;
+}
+
+.splash-status-text {
+    color: rgba(255, 255, 255, 0.75);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.splash-percent-text {
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.splash-progress-track {
+    position: relative;
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.splash-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #ffffff, #a1a1aa);
+    border-radius: 999px;
+    transition: width 0.25s ease-out;
+}
+
+.splash-progress-bar.indeterminate {
+    width: 35%;
+    animation: indeterminateSwipe 1.5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes indeterminateSwipe {
+    0% {
+        transform: translateX(-100%);
+    }
+    50% {
+        transform: translateX(120%);
+    }
+    100% {
+        transform: translateX(300%);
+    }
+}

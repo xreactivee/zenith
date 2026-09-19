@@ -15,15 +15,28 @@
 
 <body>
     <header class="title-bar">
-        <div class="title-bar-brand">
-            <svg width="20" height="20" viewBox="0 0 505 505" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M479.5 2.5H25.5C12.7975 2.5 2.5 12.7974 2.5 25.5V120.014C2.5 132.716 12.7975 143.014 25.5 143.014H205.625L9.27538 338.429C4.93829 342.746 2.5 348.612 2.5 354.731V479.5C2.5 492.203 12.7974 502.5 25.5 502.5H136.974C143.113 502.5 148.998 500.045 153.318 495.682L495.844 149.736C500.108 145.43 502.5 139.614 502.5 133.554V25.5C502.5 12.7975 492.203 2.5 479.5 2.5Z"
-                    stroke="white" stroke-width="10" />
-                <path
-                    d="M341.483 479.5V368.172C341.483 355.47 351.78 345.172 364.483 345.172H477.381C490.084 345.172 500.381 355.47 500.381 368.172V479.5C500.381 492.203 490.084 502.5 477.381 502.5H364.483C351.781 502.5 341.483 492.203 341.483 479.5Z"
-                    stroke="white" stroke-width="10" />
-            </svg>
+        <div class="title-bar-left">
+            <div class="title-bar-brand">
+                <svg width="20" height="20" viewBox="0 0 505 505" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M479.5 2.5H25.5C12.7975 2.5 2.5 12.7974 2.5 25.5V120.014C2.5 132.716 12.7975 143.014 25.5 143.014H205.625L9.27538 338.429C4.93829 342.746 2.5 348.612 2.5 354.731V479.5C2.5 492.203 12.7974 502.5 25.5 502.5H136.974C143.113 502.5 148.998 500.045 153.318 495.682L495.844 149.736C500.108 145.43 502.5 139.614 502.5 133.554V25.5C502.5 12.7975 492.203 2.5 479.5 2.5Z"
+                        stroke="white" stroke-width="10" />
+                    <path
+                        d="M341.483 479.5V368.172C341.483 355.47 351.78 345.172 364.483 345.172H477.381C490.084 345.172 500.381 355.47 500.381 368.172V479.5C500.381 492.203 490.084 502.5 477.381 502.5H364.483C351.781 502.5 341.483 492.203 341.483 479.5Z"
+                        stroke="white" stroke-width="10" />
+                </svg>
+            </div>
+
+            <button id="updateReadyBtn" class="update-pill-btn" type="button" style="display: none;" title="New update ready! Click to restart and install.">
+                <span class="update-icon-wrap">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                </span>
+                <span class="update-text" id="updateVersionText">Update</span>
+            </button>
         </div>
 
         <div class="title-bar-hotkey">
@@ -104,17 +117,30 @@
             </span>
         </div>
 
-        <div class="title-bar-controls">
-            <button id="minimizeBtn" class="control-btn minimize-btn" title="Minimize" aria-label="Minimize">
-                <svg width="12" height="2" viewBox="0 0 12 2">
-                    <rect width="12" height="2" rx="1" fill="currentColor" />
-                </svg>
+        <div class="title-bar-right">
+            <button id="authPillBtn" class="auth-pill-btn" type="button" title="Account & Plan">
+                <span class="auth-pill-avatar" id="authPillAvatar">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </span>
+                <span class="auth-pill-text" id="authPillText">Sign In</span>
+                <span class="plan-badge free" id="authPlanBadge">FREE</span>
             </button>
-            <button id="closeBtn" class="control-btn close-btn" title="Close" aria-label="Close">
-                <svg width="10" height="10" viewBox="0 0 10 10">
-                    <path d="M1 1L9 9M9 1L1 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
-                </svg>
-            </button>
+
+            <div class="title-bar-controls">
+                <button id="minimizeBtn" class="control-btn minimize-btn" title="Minimize" aria-label="Minimize">
+                    <svg width="12" height="2" viewBox="0 0 12 2">
+                        <rect width="12" height="2" rx="1" fill="currentColor" />
+                    </svg>
+                </button>
+                <button id="closeBtn" class="control-btn close-btn" title="Close" aria-label="Close">
+                    <svg width="10" height="10" viewBox="0 0 10 10">
+                        <path d="M1 1L9 9M9 1L1 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -128,7 +154,29 @@
 
                 <div class="profile-selector-box">
                     <span class="profile-label">Profile:</span>
-                    <select id="profileSelect" class="profile-select" aria-label="Active Profile"></select>
+                    <div class="profile-select-wrapper">
+                        <select id="profileSelect" class="profile-select" aria-label="Active Profile"></select>
+                        <div class="profile-actions-inline">
+                            <button id="newProfileBtn" class="profile-action-btn" type="button" title="Create New Profile">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </button>
+                            <button id="editProfileBtn" class="profile-action-btn" type="button" title="Rename Active Profile">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 20h9"></path>
+                                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                                </svg>
+                            </button>
+                            <button id="deleteProfileBtn" class="profile-action-btn delete-btn" type="button" title="Delete Active Profile">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -194,9 +242,19 @@
                         </button>
                         <button type="button" class="trigger-tab" id="tabDoublePress" data-trigger="doublePress" role="tab" aria-selected="false">
                             <span>Double Press</span>
+                            <span class="crown-badge" id="doublePressCrown" title="Pro Feature">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="#eab308" stroke="#ca8a04" stroke-width="1.5">
+                                    <path d="M2 20h20l-3-13-5 6-4-8-4 8-5-6-3 13z"></path>
+                                </svg>
+                            </span>
                         </button>
                         <button type="button" class="trigger-tab" id="tabLongPress" data-trigger="longPress" role="tab" aria-selected="false">
                             <span>Long Press</span>
+                            <span class="crown-badge" id="longPressCrown" title="Pro Feature">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="#eab308" stroke="#ca8a04" stroke-width="1.5">
+                                    <path d="M2 20h20l-3-13-5 6-4-8-4 8-5-6-3 13z"></path>
+                                </svg>
+                            </span>
                         </button>
                     </div>
                 </div>
@@ -389,6 +447,334 @@
                 <span>Zenith runs quietly in the system tray in the background.</span>
             </div>
         </footer>
+    </div>
+
+    <div id="authModal" class="modal-overlay" style="display: none;">
+        <div class="modal-card auth-modal-card">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <span class="modal-badge-icon">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </span>
+                    <h3 class="modal-title" id="authModalTitle">Zenith Account</h3>
+                </div>
+                <button type="button" class="modal-close-btn" id="closeAuthModalBtn">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div id="authFormView" class="modal-body">
+                <div class="auth-tabs">
+                    <button type="button" class="auth-tab active" id="authTabLogin">Sign In</button>
+                    <button type="button" class="auth-tab" id="authTabRegister">Create Account</button>
+                </div>
+
+                <form id="authForm" class="auth-form" onsubmit="return false;">
+                    <div class="modal-field">
+                        <label class="modal-label" for="authEmail">Email Address</label>
+                        <div class="modal-input-wrap">
+                            <span class="modal-input-icon">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                            </span>
+                            <input type="email" id="authEmail" class="modal-input" placeholder="you@domain.com" required autocomplete="email">
+                        </div>
+                    </div>
+
+                    <div class="modal-field">
+                        <label class="modal-label" for="authPassword">Password</label>
+                        <div class="modal-input-wrap">
+                            <span class="modal-input-icon">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                            </span>
+                            <input type="password" id="authPassword" class="modal-input" placeholder="••••••••" required autocomplete="current-password">
+                        </div>
+                    </div>
+
+                    <div id="authErrorMsg" class="modal-feedback error" style="display: none;"></div>
+
+                    <div class="modal-actions">
+                        <button type="submit" id="authSubmitBtn" class="btn-primary full-width">
+                            <span id="authSubmitText">Sign In</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="authProfileView" class="modal-body" style="display: none;">
+                <div class="account-card">
+                    <div class="account-avatar">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <div class="account-info">
+                        <span class="account-email" id="accountEmailDisplay">user@example.com</span>
+                        <div class="account-plan-row">
+                            <span class="account-plan-label">Plan:</span>
+                            <span class="plan-badge free" id="accountPlanBadge">FREE</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="account-actions-row">
+                    <button type="button" id="upgradePromptBtn" class="btn-primary full-width upgrade-btn">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="#eab308" stroke="#ca8a04" stroke-width="1.5">
+                            <path d="M2 20h20l-3-13-5 6-4-8-4 8-5-6-3 13z"></path>
+                        </svg>
+                        <span>Upgrade to Zenith Pro</span>
+                    </button>
+                    <button type="button" id="logoutBtn" class="btn-secondary full-width">
+                        <span>Log Out</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="profileModal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <h3 class="modal-title" id="profileModalTitle">New Profile</h3>
+                </div>
+                <button type="button" class="modal-close-btn" id="closeProfileModalBtn">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form id="profileForm" onsubmit="return false;">
+                    <div class="modal-field">
+                        <label class="modal-label" for="profileNameInput">Profile Name</label>
+                        <input type="text" id="profileNameInput" class="modal-input" placeholder="e.g. Coding, Gaming, Writing" required maxlength="32">
+                    </div>
+
+                    <div id="profileErrorMsg" class="modal-feedback error" style="display: none;"></div>
+
+                    <div class="modal-actions-dual">
+                        <button type="button" id="cancelProfileBtn" class="btn-secondary">Cancel</button>
+                        <button type="submit" id="saveProfileBtn" class="btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="deleteProfileModal" class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <h3 class="modal-title">Delete Profile</h3>
+                </div>
+                <button type="button" class="modal-close-btn" id="closeDeleteModalBtn">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p class="modal-warning-text" id="deleteModalPrompt">Are you sure you want to delete this profile?</p>
+
+                <div id="deleteErrorMsg" class="modal-feedback error" style="display: none;"></div>
+
+                <div class="modal-actions-dual">
+                    <button type="button" id="cancelDeleteBtn" class="btn-secondary">Cancel</button>
+                    <button type="button" id="confirmDeleteBtn" class="btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="upgradeModal" class="modal-overlay" style="display: none;">
+        <div class="modal-card upgrade-wizard-card">
+            <div class="modal-header">
+                <div class="upgrade-wizard-steps">
+                    <span class="wizard-step-dot active" id="wizardDot1"></span>
+                    <span class="wizard-step-line"></span>
+                    <span class="wizard-step-dot" id="wizardDot2"></span>
+                    <span class="wizard-step-line"></span>
+                    <span class="wizard-step-dot" id="wizardDot3"></span>
+                </div>
+                <button type="button" class="modal-close-btn" id="closeUpgradeModalBtn">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="upgrade-step-content" id="upgradeStep1">
+                <div class="upgrade-hero-badge">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#eab308" stroke="#ca8a04" stroke-width="1.5">
+                        <path d="M2 20h20l-3-13-5 6-4-8-4 8-5-6-3 13z"></path>
+                    </svg>
+                </div>
+                <h2 class="upgrade-title">Unlock Zenith Pro</h2>
+                <p class="upgrade-subtitle">Supercharge your workflow with gesture remaps and unlimited profiles.</p>
+
+                <div class="upgrade-features-list">
+                    <div class="upgrade-feature-item">
+                        <div class="feature-check-icon">✓</div>
+                        <div class="feature-text">
+                            <strong>Double Press & Long Press Remaps</strong>
+                            <span>Trigger custom apps or commands with dual-tap or press-and-hold gestures.</span>
+                        </div>
+                    </div>
+                    <div class="upgrade-feature-item">
+                        <div class="feature-check-icon">✓</div>
+                        <div class="feature-text">
+                            <strong>Unlimited Profiles</strong>
+                            <span>Create tailored hotkey setups for work, gaming, coding, and media.</span>
+                        </div>
+                    </div>
+                    <div class="upgrade-feature-item">
+                        <div class="feature-check-icon">✓</div>
+                        <div class="feature-text">
+                            <strong>Instant Response & Cloud Sync</strong>
+                            <span>Zero latency raw key interception and cloud account sync.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pricing-plans-grid">
+                    <div class="pricing-card" id="pricingMonthly" data-plan="monthly">
+                        <div class="pricing-card-radio">
+                            <input type="radio" name="billingPeriod" value="monthly" id="billingMonthly">
+                        </div>
+                        <div class="pricing-card-body">
+                            <span class="pricing-name">Monthly</span>
+                            <div class="pricing-price-wrap">
+                                <span class="pricing-price">$3.99</span>
+                                <span class="pricing-period">/mo</span>
+                            </div>
+                            <span class="pricing-sub">Billed monthly</span>
+                        </div>
+                    </div>
+
+                    <div class="pricing-card selected" id="pricingAnnual" data-plan="annual">
+                        <span class="pricing-badge">Save 38%</span>
+                        <div class="pricing-card-radio">
+                            <input type="radio" name="billingPeriod" value="annual" id="billingAnnual" checked>
+                        </div>
+                        <div class="pricing-card-body">
+                            <span class="pricing-name">Annual</span>
+                            <div class="pricing-price-wrap">
+                                <span class="pricing-price">$2.49</span>
+                                <span class="pricing-period">/mo</span>
+                            </div>
+                            <span class="pricing-sub">$29.99 billed yearly</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" id="toStep2Btn" class="btn-primary full-width">
+                        <span>Continue to Checkout</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="upgrade-step-content" id="upgradeStep2" style="display: none;">
+                <div class="checkout-header">
+                    <h3 class="checkout-title">Payment Details</h3>
+                    <p class="checkout-subtitle">Simulated secure checkout for instant Zenith Pro activation.</p>
+                </div>
+
+                <div class="checkout-summary-box">
+                    <div class="summary-line">
+                        <span>Selected Plan</span>
+                        <span id="checkoutSelectedPlan">Zenith Pro Annual</span>
+                    </div>
+                    <div class="summary-line total">
+                        <span>Total Due</span>
+                        <span id="checkoutTotalPrice">$29.99</span>
+                    </div>
+                </div>
+
+                <form id="checkoutForm" onsubmit="return false;" class="checkout-form">
+                    <div class="modal-field">
+                        <label class="modal-label" for="cardholderName">Cardholder Name</label>
+                        <input type="text" id="cardholderName" class="modal-input" placeholder="e.g. Alex Morgan" value="Alex Morgan" required>
+                    </div>
+
+                    <div class="modal-field">
+                        <label class="modal-label" for="cardNumber">Card Number</label>
+                        <div class="modal-input-wrap">
+                            <span class="modal-input-icon">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                                </svg>
+                            </span>
+                            <input type="text" id="cardNumber" class="modal-input" placeholder="4242 •••• •••• 4242" value="4242 8888 9999 4242" required maxlength="19">
+                        </div>
+                    </div>
+
+                    <div class="checkout-split-row">
+                        <div class="modal-field">
+                            <label class="modal-label" for="cardExpiry">Expiration</label>
+                            <input type="text" id="cardExpiry" class="modal-input" placeholder="MM/YY" value="12/28" required maxlength="5">
+                        </div>
+                        <div class="modal-field">
+                            <label class="modal-label" for="cardCvc">CVC</label>
+                            <input type="text" id="cardCvc" class="modal-input" placeholder="CVC" value="888" required maxlength="4">
+                        </div>
+                    </div>
+
+                    <div id="checkoutErrorMsg" class="modal-feedback error" style="display: none;"></div>
+
+                    <div class="modal-actions-dual">
+                        <button type="button" id="backToStep1Btn" class="btn-secondary">Back</button>
+                        <button type="submit" id="submitPaymentBtn" class="btn-primary">
+                            <span id="paymentBtnText">Complete & Upgrade</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="upgrade-step-content" id="upgradeStep3" style="display: none;">
+                <div class="success-celebration">
+                    <div class="celebration-crown">
+                        <svg width="42" height="42" viewBox="0 0 24 24" fill="#eab308" stroke="#ca8a04" stroke-width="1.5">
+                            <path d="M2 20h20l-3-13-5 6-4-8-4 8-5-6-3 13z"></path>
+                        </svg>
+                    </div>
+                    <h2 class="celebration-title">Welcome to Zenith Pro!</h2>
+                    <p class="celebration-desc">Your subscription is active. Double press, long press, and unlimited profiles are now unlocked.</p>
+                    <div class="celebration-plan-chip">
+                        <span>ACTIVE PLAN:</span>
+                        <strong>PRO UNLIMITED</strong>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" id="finishUpgradeBtn" class="btn-primary full-width">
+                        <span>Start Using Pro Features</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="app.js"></script>

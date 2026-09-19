@@ -12,7 +12,6 @@
     "build:portable": "electron-builder --win portable",
     "build:all": "electron-builder --win nsis portable"
   },
-  "dependencies": {},
   "devDependencies": {
     "electron": "^28.3.3",
     "electron-builder": "^24.13.3"
@@ -21,6 +20,13 @@
     "appId": "com.zenith.app",
     "productName": "Zenith",
     "copyright": "Copyright © 2026",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "xreactivee",
+        "repo": "zenith"
+      }
+    ],
     "directories": {
       "output": "dist",
       "buildResources": "assets"
@@ -73,6 +79,9 @@
     "remapper",
     "tray"
   ],
-  "author": "Zenith Team",
-  "license": "MIT"
+  "author": "xReactive",
+  "license": "MIT",
+  "dependencies": {
+    "electron-updater": "^6.8.9"
+  }
 }

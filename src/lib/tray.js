@@ -38,7 +38,7 @@ function buildContextMenu(config, onProfileChange) {
         },
         { type: 'separator' },
         {
-            label: 'Quit Zenith',
+            label: 'Quit',
             click: () => {
                 setIsQuitting(true);
                 app.quit();
