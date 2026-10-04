@@ -72,6 +72,7 @@ export interface ElectronApi {
     windowControl: (action: WindowControlAction) => void;
     getInstalledApps: () => Promise<ApiResponse<InstalledApp[]>>;
     setAutoStart: (enabled: boolean) => Promise<ApiResponse<{ autoStart: boolean }>>;
+    onAutoStartChanged: (callback: (enabled: boolean) => void) => void;
     setActiveProfile: (profileId: string) => Promise<ApiResponse<AppConfig>>;
     createProfile: (name: string) => Promise<ApiResponse<AppConfig>>;
     renameProfile: (profileId: string, name: string) => Promise<ApiResponse<AppConfig>>;

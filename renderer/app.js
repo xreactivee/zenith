@@ -608,11 +608,35 @@ enabledToggle.addEventListener('change', () => {
     updateStatusDisplay();
 });
 
-autoStartToggle.addEventListener('change', () => {
+autoStartToggle.addEventListener('change', async () => {
+    const isChecked = autoStartToggle.checked;
     if (currentConfig) {
-        currentConfig.autoStart = autoStartToggle.checked;
+        currentConfig.autoStart = isChecked;
+    }
+    if (window.api && window.api.setAutoStart) {
+        try {
+            const res = await window.api.setAutoStart(isChecked);
+            if (res && res.status === 200) {
+                showStatus(isChecked ? 'Start in background enabled' : 'Start in background disabled', 'success');
+            } else {
+                showStatus((res && res.error) || 'Failed to update auto-start', 'error');
+            }
+        } catch (err) {
+            showStatus('Auto-start error: ' + err.message, 'error');
+        }
     }
 });
+
+if (window.api && window.api.onAutoStartChanged) {
+    window.api.onAutoStartChanged((enabled) => {
+        if (autoStartToggle) {
+            autoStartToggle.checked = Boolean(enabled);
+        }
+        if (currentConfig) {
+            currentConfig.autoStart = Boolean(enabled);
+        }
+    });
+}
 
 if (appSearchInput) {
     appSearchInput.addEventListener('input', (e) => {

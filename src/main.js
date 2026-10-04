@@ -6,7 +6,8 @@ const {
     getActiveProfile,
     createProfile,
     renameProfile,
-    deleteProfile
+    deleteProfile,
+    applyAutoStartSetting
 } = require('./lib/config');
 const {
     getLocalSession,
@@ -37,7 +38,41 @@ const {
     getUpdateInfo
 } = require('./lib/updater');
 
+const gotTheLock = app.requestSingleInstanceLock();
+if (!gotTheLock) {
+    app.quit();
+} else {
+    app.on('second-instance', () => {
+        showWindow();
+    });
+}
+
 let currentConfig = loadConfig();
+
+function isStartedInBackground() {
+    const hasHiddenArg = process.argv.some(
+        (arg) =>
+            arg === '--hidden' ||
+            arg === '--minimized' ||
+            arg === '--background' ||
+            arg === '--autostart' ||
+            arg === '-hidden'
+    );
+    if (hasHiddenArg) {
+        return true;
+    }
+
+    try {
+        const loginItem = app.getLoginItemSettings();
+        if (loginItem && (loginItem.wasOpenedAtLogin || loginItem.wasOpenedAsHidden)) {
+            return true;
+        }
+    } catch (err) {
+        console.warn('Error reading login item settings:', err);
+    }
+
+    return false;
+}
 
 function handleTrigger(triggerType) {
     if (!currentConfig || !currentConfig.enabled) {
@@ -58,10 +93,23 @@ function handleTrigger(triggerType) {
 function handleProfileChange(profileId) {
     currentConfig.activeProfileId = profileId;
     saveConfig(currentConfig);
-    updateTray(currentConfig, handleProfileChange);
+    updateTray(currentConfig, handleProfileChange, handleAutoStartChange);
     const win = getMainWindow();
     if (win && win.webContents) {
         win.webContents.send('profile-changed', profileId);
+    }
+}
+
+function handleAutoStartChange(enabled) {
+    currentConfig.autoStart = Boolean(enabled);
+    const saved = saveConfig(currentConfig);
+    if (saved) {
+        currentConfig = saved;
+    }
+    updateTray(currentConfig, handleProfileChange, handleAutoStartChange);
+    const win = getMainWindow();
+    if (win && win.webContents) {
+        win.webContents.send('auto-start-changed', currentConfig.autoStart);
     }
 }
 
@@ -89,7 +137,7 @@ function setupIpcHandlers() {
             if (saved) {
                 currentConfig = saved;
                 setupHotkey(currentConfig, handleTrigger);
-                updateTray(currentConfig, handleProfileChange);
+                updateTray(currentConfig, handleProfileChange, handleAutoStartChange);
                 return ok(saved);
             }
             return badRequest('Failed to save configuration');
@@ -134,7 +182,7 @@ function setupIpcHandlers() {
             const saved = createProfile(name, session.plan || 'free');
             if (saved) {
                 currentConfig = saved;
-                updateTray(currentConfig, handleProfileChange);
+                updateTray(currentConfig, handleProfileChange, handleAutoStartChange);
                 return created(saved);
             }
             return badRequest('Failed to create profile');
@@ -148,7 +196,7 @@ function setupIpcHandlers() {
             const saved = renameProfile(profileId, name);
             if (saved) {
                 currentConfig = saved;
-                updateTray(currentConfig, handleProfileChange);
+                updateTray(currentConfig, handleProfileChange, handleAutoStartChange);
                 return ok(saved);
             }
             return badRequest('Failed to rename profile');
@@ -162,7 +210,7 @@ function setupIpcHandlers() {
             const saved = deleteProfile(profileId);
             if (saved) {
                 currentConfig = saved;
-                updateTray(currentConfig, handleProfileChange);
+                updateTray(currentConfig, handleProfileChange, handleAutoStartChange);
                 return ok(saved);
             }
             return badRequest('Failed to delete profile');
@@ -173,8 +221,7 @@ function setupIpcHandlers() {
 
     ipcMain.handle('set-auto-start', (event, enabled) => {
         try {
-            currentConfig.autoStart = Boolean(enabled);
-            saveConfig(currentConfig);
+            handleAutoStartChange(enabled);
             return ok({ autoStart: currentConfig.autoStart });
         } catch (error) {
             return internalError(error.message);
@@ -248,34 +295,46 @@ function setupIpcHandlers() {
 app.on('ready', () => {
     setupIpcHandlers();
     createWindow({ show: false });
-    createTray(currentConfig, handleProfileChange);
+    createTray(currentConfig, handleProfileChange, handleAutoStartChange);
     setupHotkey(currentConfig, handleTrigger);
+    applyAutoStartSetting(currentConfig.autoStart);
     getInstalledApps();
 
-    const splash = createSplashWindow();
+    const startHidden = isStartedInBackground();
 
-    checkStartupUpdate({
-        onStatus: (text) => {
-            if (splash && !splash.isDestroyed() && splash.webContents) {
-                splash.webContents.send('splash-status', text);
-            }
-        },
-        onProgress: (percent) => {
-            if (splash && !splash.isDestroyed() && splash.webContents) {
-                splash.webContents.send('splash-progress', percent);
-            }
-        },
-        onDone: () => {
-            closeSplashWindow();
-            showWindow();
-            startBackgroundUpdateChecker((info) => {
-                const win = getMainWindow();
-                if (win && !win.isDestroyed() && win.webContents) {
-                    win.webContents.send('update-ready', info);
+    if (!startHidden) {
+        const splash = createSplashWindow();
+
+        checkStartupUpdate({
+            onStatus: (text) => {
+                if (splash && !splash.isDestroyed() && splash.webContents) {
+                    splash.webContents.send('splash-status', text);
                 }
-            });
-        }
-    });
+            },
+            onProgress: (percent) => {
+                if (splash && !splash.isDestroyed() && splash.webContents) {
+                    splash.webContents.send('splash-progress', percent);
+                }
+            },
+            onDone: () => {
+                closeSplashWindow();
+                showWindow();
+                startBackgroundUpdateChecker((info) => {
+                    const win = getMainWindow();
+                    if (win && !win.isDestroyed() && win.webContents) {
+                        win.webContents.send('update-ready', info);
+                    }
+                });
+            }
+        });
+    } else {
+        startBackgroundUpdateChecker((info) => {
+            const win = getMainWindow();
+            if (win && !win.isDestroyed() && win.webContents) {
+                win.webContents.send('update-ready', info);
+            }
+        });
+    }
 });
 
 app.on('before-quit', () => {

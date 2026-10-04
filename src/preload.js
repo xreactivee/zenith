@@ -11,6 +11,9 @@ contextBridge.exposeInMainWorld('api', {
     renameProfile: (profileId, name) => ipcRenderer.invoke('rename-profile', profileId, name),
     deleteProfile: (profileId) => ipcRenderer.invoke('delete-profile', profileId),
     setAutoStart: (enabled) => ipcRenderer.invoke('set-auto-start', enabled),
+    onAutoStartChanged: (callback) => {
+        ipcRenderer.on('auto-start-changed', (event, enabled) => callback(enabled));
+    },
     login: (credentials) => ipcRenderer.invoke('auth-login', credentials),
     register: (credentials) => ipcRenderer.invoke('auth-register', credentials),
     logout: () => ipcRenderer.invoke('auth-logout'),

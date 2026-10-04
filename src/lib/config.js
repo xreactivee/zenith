@@ -146,10 +146,17 @@ function loadConfig() {
 function applyAutoStartSetting(enabled) {
     try {
         if (app && typeof app.setLoginItemSettings === 'function') {
-            app.setLoginItemSettings({
-                openAtLogin: enabled,
-                openAsHidden: true
-            });
+            const isEnabled = Boolean(enabled);
+            const settings = {
+                openAtLogin: isEnabled
+            };
+            if (process.platform === 'win32') {
+                settings.path = process.execPath;
+                settings.args = ['--hidden'];
+            } else if (process.platform === 'darwin') {
+                settings.openAsHidden = true;
+            }
+            app.setLoginItemSettings(settings);
         }
     } catch (error) {
         console.error('Error setting login item:', error);

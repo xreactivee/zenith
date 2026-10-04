@@ -3,9 +3,12 @@ const path = require('path');
 const { showWindow, setIsQuitting } = require('./window');
 
 let tray = null;
+let cachedOnProfileChange = null;
+let cachedOnAutoStartChange = null;
 
-function buildContextMenu(config, onProfileChange) {
+function buildContextMenu(config, onProfileChange, onAutoStartChange) {
     const isEnabled = config && config.enabled !== false;
+    const isAutoStart = config && config.autoStart === true;
     const profiles = config && Array.isArray(config.profiles) ? config.profiles : [];
     const activeProfileId = config && config.activeProfileId ? config.activeProfileId : 'default';
 
@@ -22,7 +25,7 @@ function buildContextMenu(config, onProfileChange) {
 
     return Menu.buildFromTemplate([
         {
-            label: 'Settings',
+            label: 'Open Zenith',
             click: () => {
                 showWindow();
             }
@@ -30,6 +33,16 @@ function buildContextMenu(config, onProfileChange) {
         {
             label: `Status: ${isEnabled ? 'Active ✓' : 'Disabled ✗'}`,
             enabled: false
+        },
+        {
+            label: 'Start in Background',
+            type: 'checkbox',
+            checked: isAutoStart,
+            click: (menuItem) => {
+                if (typeof onAutoStartChange === 'function') {
+                    onAutoStartChange(menuItem.checked);
+                }
+            }
         },
         { type: 'separator' },
         {
@@ -47,9 +60,12 @@ function buildContextMenu(config, onProfileChange) {
     ]);
 }
 
-function createTray(config, onProfileChange) {
+function createTray(config, onProfileChange, onAutoStartChange) {
+    if (onProfileChange) cachedOnProfileChange = onProfileChange;
+    if (onAutoStartChange) cachedOnAutoStartChange = onAutoStartChange;
+
     if (tray) {
-        updateTray(config, onProfileChange);
+        updateTray(config, cachedOnProfileChange, cachedOnAutoStartChange);
         return tray;
     }
 
@@ -61,15 +77,18 @@ function createTray(config, onProfileChange) {
         showWindow();
     });
 
-    updateTray(config, onProfileChange);
+    updateTray(config, cachedOnProfileChange, cachedOnAutoStartChange);
     return tray;
 }
 
-function updateTray(config, onProfileChange) {
+function updateTray(config, onProfileChange, onAutoStartChange) {
     if (!tray) {
         return;
     }
-    const contextMenu = buildContextMenu(config, onProfileChange);
+    if (onProfileChange) cachedOnProfileChange = onProfileChange;
+    if (onAutoStartChange) cachedOnAutoStartChange = onAutoStartChange;
+
+    const contextMenu = buildContextMenu(config, cachedOnProfileChange, cachedOnAutoStartChange);
     tray.setContextMenu(contextMenu);
 }
 
