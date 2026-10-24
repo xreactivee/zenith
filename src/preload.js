@@ -14,11 +14,6 @@ contextBridge.exposeInMainWorld('api', {
     onAutoStartChanged: (callback) => {
         ipcRenderer.on('auto-start-changed', (event, enabled) => callback(enabled));
     },
-    login: (credentials) => ipcRenderer.invoke('auth-login', credentials),
-    register: (credentials) => ipcRenderer.invoke('auth-register', credentials),
-    logout: () => ipcRenderer.invoke('auth-logout'),
-    getSession: () => ipcRenderer.invoke('auth-get-session'),
-    upgradeToPro: () => ipcRenderer.invoke('auth-upgrade-pro'),
     installUpdate: () => ipcRenderer.invoke('updater-install'),
     checkForUpdates: () => ipcRenderer.invoke('updater-check'),
     onUpdateReady: (callback) => {

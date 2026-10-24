@@ -37,33 +37,9 @@ const closeBtn = document.getElementById('closeBtn');
 const updateReadyBtn = document.getElementById('updateReadyBtn');
 const updateVersionText = document.getElementById('updateVersionText');
 
-const authPillBtn = document.getElementById('authPillBtn');
-const authPillText = document.getElementById('authPillText');
-const authPlanBadge = document.getElementById('authPlanBadge');
-const doublePressCrown = document.getElementById('doublePressCrown');
-const longPressCrown = document.getElementById('longPressCrown');
-
 const newProfileBtn = document.getElementById('newProfileBtn');
 const editProfileBtn = document.getElementById('editProfileBtn');
 const deleteProfileBtn = document.getElementById('deleteProfileBtn');
-
-const authModal = document.getElementById('authModal');
-const closeAuthModalBtn = document.getElementById('closeAuthModalBtn');
-const authModalTitle = document.getElementById('authModalTitle');
-const authFormView = document.getElementById('authFormView');
-const authProfileView = document.getElementById('authProfileView');
-const authTabLogin = document.getElementById('authTabLogin');
-const authTabRegister = document.getElementById('authTabRegister');
-const authForm = document.getElementById('authForm');
-const authEmail = document.getElementById('authEmail');
-const authPassword = document.getElementById('authPassword');
-const authErrorMsg = document.getElementById('authErrorMsg');
-const authSubmitBtn = document.getElementById('authSubmitBtn');
-const authSubmitText = document.getElementById('authSubmitText');
-const accountEmailDisplay = document.getElementById('accountEmailDisplay');
-const accountPlanBadge = document.getElementById('accountPlanBadge');
-const upgradePromptBtn = document.getElementById('upgradePromptBtn');
-const logoutBtn = document.getElementById('logoutBtn');
 
 const profileModal = document.getElementById('profileModal');
 const profileModalTitle = document.getElementById('profileModalTitle');
@@ -81,38 +57,13 @@ const deleteErrorMsg = document.getElementById('deleteErrorMsg');
 const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
 const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
 
-const upgradeModal = document.getElementById('upgradeModal');
-const closeUpgradeModalBtn = document.getElementById('closeUpgradeModalBtn');
-const wizardDot1 = document.getElementById('wizardDot1');
-const wizardDot2 = document.getElementById('wizardDot2');
-const wizardDot3 = document.getElementById('wizardDot3');
-const upgradeStep1 = document.getElementById('upgradeStep1');
-const upgradeStep2 = document.getElementById('upgradeStep2');
-const upgradeStep3 = document.getElementById('upgradeStep3');
-const pricingMonthly = document.getElementById('pricingMonthly');
-const pricingAnnual = document.getElementById('pricingAnnual');
-const billingMonthly = document.getElementById('billingMonthly');
-const billingAnnual = document.getElementById('billingAnnual');
-const toStep2Btn = document.getElementById('toStep2Btn');
-const checkoutSelectedPlan = document.getElementById('checkoutSelectedPlan');
-const checkoutTotalPrice = document.getElementById('checkoutTotalPrice');
-const checkoutForm = document.getElementById('checkoutForm');
-const checkoutErrorMsg = document.getElementById('checkoutErrorMsg');
-const backToStep1Btn = document.getElementById('backToStep1Btn');
-const submitPaymentBtn = document.getElementById('submitPaymentBtn');
-const paymentBtnText = document.getElementById('paymentBtnText');
-const finishUpgradeBtn = document.getElementById('finishUpgradeBtn');
-
 let currentConfig = null;
 let currentTrigger = 'singlePress';
 let installedApps = [];
 let selectedApp = null;
 let toastTimeout = null;
-let currentSession = { id: 'guest', email: '', plan: 'free' };
 let profileToEdit = null;
 let profileToDelete = null;
-let authMode = 'login';
-let selectedBilling = 'annual';
 
 const defaultAppSvgIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="4" ry="4"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`;
 const circleCheckSvg = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="8.5 12 11 14.5 16 9.5"></polyline></svg>`;
@@ -410,86 +361,10 @@ function closeModal(modal) {
     modal.style.display = 'none';
 }
 
-function updateSessionDisplay(session) {
-    currentSession = session || { id: 'guest', email: '', plan: 'free' };
-    const isPro = currentSession.plan === 'pro';
-
-    if (authPillText) {
-        if (currentSession.email) {
-            const shortName = currentSession.email.split('@')[0];
-            authPillText.textContent = shortName;
-        } else {
-            authPillText.textContent = 'Sign In';
-        }
-    }
-
-    if (authPlanBadge) {
-        authPlanBadge.textContent = isPro ? 'PRO' : 'FREE';
-        authPlanBadge.className = `plan-badge ${isPro ? 'pro' : 'free'}`;
-    }
-
-    if (accountPlanBadge) {
-        accountPlanBadge.textContent = isPro ? 'PRO' : 'FREE';
-        accountPlanBadge.className = `plan-badge ${isPro ? 'pro' : 'free'}`;
-    }
-
-    if (accountEmailDisplay) {
-        accountEmailDisplay.textContent = currentSession.email || 'Guest User';
-    }
-
-    if (upgradePromptBtn) {
-        upgradePromptBtn.style.display = isPro ? 'none' : 'inline-flex';
-    }
-
-    if (doublePressCrown) {
-        doublePressCrown.style.display = isPro ? 'none' : 'inline-flex';
-    }
-
-    if (longPressCrown) {
-        longPressCrown.style.display = isPro ? 'none' : 'inline-flex';
-    }
-
-    if (authFormView && authProfileView) {
-        if (currentSession.email) {
-            authFormView.style.display = 'none';
-            authProfileView.style.display = 'block';
-            authModalTitle.textContent = 'Account Details';
-        } else {
-            authFormView.style.display = 'block';
-            authProfileView.style.display = 'none';
-            authModalTitle.textContent = authMode === 'login' ? 'Sign In to Zenith' : 'Create Zenith Account';
-        }
-    }
-}
-
-function setWizardStep(step) {
-    wizardDot1.classList.toggle('active', step === 1);
-    wizardDot2.classList.toggle('active', step === 2);
-    wizardDot3.classList.toggle('active', step === 3);
-
-    upgradeStep1.style.display = step === 1 ? 'block' : 'none';
-    upgradeStep2.style.display = step === 2 ? 'block' : 'none';
-    upgradeStep3.style.display = step === 3 ? 'block' : 'none';
-}
-
-function openUpgradeWizard() {
-    setWizardStep(1);
-    checkoutErrorMsg.style.display = 'none';
-    checkoutErrorMsg.textContent = '';
-    openModal(upgradeModal);
-}
-
 async function loadAppConfiguration() {
     try {
         if (!window.api) {
             return;
-        }
-
-        if (window.api.getSession) {
-            const sessionRes = await window.api.getSession();
-            if (sessionRes && sessionRes.status === 200 && sessionRes.data) {
-                updateSessionDisplay(sessionRes.data);
-            }
         }
 
         if (window.api.loadConfig) {
@@ -536,11 +411,6 @@ async function loadInstalledApps() {
 triggerTabs.forEach((tab) => {
     tab.addEventListener('click', () => {
         const triggerType = tab.getAttribute('data-trigger') || 'singlePress';
-        if (currentSession.plan !== 'pro' && triggerType !== 'singlePress') {
-            openUpgradeWizard();
-            return;
-        }
-
         saveCurrentFormToState();
         triggerTabs.forEach((t) => {
             t.classList.remove('active');
@@ -752,111 +622,8 @@ saveBtn.addEventListener('click', async () => {
     }
 });
 
-if (authPillBtn) {
-    authPillBtn.addEventListener('click', () => {
-        authErrorMsg.style.display = 'none';
-        authErrorMsg.textContent = '';
-        openModal(authModal);
-    });
-}
-
-if (closeAuthModalBtn) {
-    closeAuthModalBtn.addEventListener('click', () => closeModal(authModal));
-}
-
-if (authTabLogin) {
-    authTabLogin.addEventListener('click', () => {
-        authMode = 'login';
-        authTabLogin.classList.add('active');
-        authTabRegister.classList.remove('active');
-        authSubmitText.textContent = 'Sign In';
-        authModalTitle.textContent = 'Sign In to Zenith';
-        authErrorMsg.style.display = 'none';
-        authErrorMsg.textContent = '';
-    });
-}
-
-if (authTabRegister) {
-    authTabRegister.addEventListener('click', () => {
-        authMode = 'register';
-        authTabRegister.classList.add('active');
-        authTabLogin.classList.remove('active');
-        authSubmitText.textContent = 'Create Account';
-        authModalTitle.textContent = 'Create Zenith Account';
-        authErrorMsg.style.display = 'none';
-        authErrorMsg.textContent = '';
-    });
-}
-
-if (authForm) {
-    authForm.addEventListener('submit', async () => {
-        const email = authEmail.value.trim();
-        const password = authPassword.value;
-
-        if (!email || !password) {
-            authErrorMsg.textContent = 'Please enter both email and password';
-            authErrorMsg.style.display = 'block';
-            return;
-        }
-
-        try {
-            authSubmitBtn.disabled = true;
-            authErrorMsg.style.display = 'none';
-
-            let response;
-            if (authMode === 'login') {
-                response = await window.api.login({ email, password });
-            } else {
-                response = await window.api.register({ email, password });
-            }
-
-            if (response && (response.status === 200 || response.status === 201) && response.data) {
-                updateSessionDisplay(response.data);
-                closeModal(authModal);
-                authEmail.value = '';
-                authPassword.value = '';
-                showStatus(authMode === 'login' ? 'Signed in (200 OK)' : 'Account created (201 CREATED)', 'success');
-            } else {
-                authErrorMsg.textContent = (response && response.error) || 'Authentication failed';
-                authErrorMsg.style.display = 'block';
-            }
-        } catch (error) {
-            authErrorMsg.textContent = error.message || 'Authentication error';
-            authErrorMsg.style.display = 'block';
-        } finally {
-            authSubmitBtn.disabled = false;
-        }
-    });
-}
-
-if (logoutBtn) {
-    logoutBtn.addEventListener('click', async () => {
-        try {
-            const response = await window.api.logout();
-            if (response && response.status === 200) {
-                updateSessionDisplay({ id: 'guest', email: '', plan: 'free' });
-                closeModal(authModal);
-                showStatus('Signed out (200 OK)', 'success');
-            }
-        } catch (error) {
-            showStatus('Error signing out: ' + error.message, 'error');
-        }
-    });
-}
-
-if (upgradePromptBtn) {
-    upgradePromptBtn.addEventListener('click', () => {
-        closeModal(authModal);
-        openUpgradeWizard();
-    });
-}
-
 if (newProfileBtn) {
     newProfileBtn.addEventListener('click', () => {
-        if (currentSession.plan !== 'pro' && currentConfig && currentConfig.profiles && currentConfig.profiles.length >= 2) {
-            openUpgradeWizard();
-            return;
-        }
         profileToEdit = null;
         profileModalTitle.textContent = 'New Profile';
         profileNameInput.value = '';
@@ -978,82 +745,7 @@ if (confirmDeleteBtn) {
     });
 }
 
-if (pricingMonthly) {
-    pricingMonthly.addEventListener('click', () => {
-        selectedBilling = 'monthly';
-        billingMonthly.checked = true;
-        pricingMonthly.classList.add('selected');
-        pricingAnnual.classList.remove('selected');
-    });
-}
-
-if (pricingAnnual) {
-    pricingAnnual.addEventListener('click', () => {
-        selectedBilling = 'annual';
-        billingAnnual.checked = true;
-        pricingAnnual.classList.add('selected');
-        pricingMonthly.classList.remove('selected');
-    });
-}
-
-if (toStep2Btn) {
-    toStep2Btn.addEventListener('click', () => {
-        if (selectedBilling === 'monthly') {
-            checkoutSelectedPlan.textContent = 'Zenith Pro Monthly';
-            checkoutTotalPrice.textContent = '$3.99';
-        } else {
-            checkoutSelectedPlan.textContent = 'Zenith Pro Annual';
-            checkoutTotalPrice.textContent = '$29.99';
-        }
-        setWizardStep(2);
-    });
-}
-
-if (backToStep1Btn) {
-    backToStep1Btn.addEventListener('click', () => {
-        setWizardStep(1);
-    });
-}
-
-if (checkoutForm) {
-    checkoutForm.addEventListener('submit', async () => {
-        try {
-            submitPaymentBtn.disabled = true;
-            paymentBtnText.textContent = 'Processing...';
-            checkoutErrorMsg.style.display = 'none';
-
-            await new Promise((resolve) => setTimeout(resolve, 500));
-
-            const response = await window.api.upgradeToPro();
-            if (response && response.status === 200 && response.data) {
-                updateSessionDisplay(response.data);
-                setWizardStep(3);
-                showStatus('Upgraded to Zenith Pro (200 OK)', 'success');
-            } else {
-                checkoutErrorMsg.textContent = (response && response.error) || 'Upgrade failed';
-                checkoutErrorMsg.style.display = 'block';
-            }
-        } catch (error) {
-            checkoutErrorMsg.textContent = error.message || 'Payment processing error';
-            checkoutErrorMsg.style.display = 'block';
-        } finally {
-            submitPaymentBtn.disabled = false;
-            paymentBtnText.textContent = 'Complete & Upgrade';
-        }
-    });
-}
-
-if (finishUpgradeBtn) {
-    finishUpgradeBtn.addEventListener('click', () => {
-        closeModal(upgradeModal);
-    });
-}
-
-if (closeUpgradeModalBtn) {
-    closeUpgradeModalBtn.addEventListener('click', () => closeModal(upgradeModal));
-}
-
-[authModal, profileModal, deleteProfileModal, upgradeModal].forEach((modal) => {
+[profileModal, deleteProfileModal].forEach((modal) => {
     if (!modal) return;
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
