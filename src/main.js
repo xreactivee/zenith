@@ -9,13 +9,6 @@ const {
     deleteProfile,
     applyAutoStartSetting
 } = require('./lib/config');
-const {
-    getLocalSession,
-    loginUser,
-    registerUser,
-    logoutUser,
-    upgradeUserToPro
-} = require('./lib/auth');
 const { setupHotkey, stopHotkeyListener } = require('./lib/hotkey');
 const { executeAction } = require('./lib/executor');
 const { getInstalledApps } = require('./lib/appScanner');
@@ -76,10 +69,6 @@ function isStartedInBackground() {
 
 function handleTrigger(triggerType) {
     if (!currentConfig || !currentConfig.enabled) {
-        return;
-    }
-    const session = getLocalSession();
-    if (session.plan !== 'pro' && triggerType !== 'singlePress') {
         return;
     }
     const profile = getActiveProfile(currentConfig);
@@ -178,8 +167,7 @@ function setupIpcHandlers() {
 
     ipcMain.handle('create-profile', (event, name) => {
         try {
-            const session = getLocalSession();
-            const saved = createProfile(name, session.plan || 'free');
+            const saved = createProfile(name);
             if (saved) {
                 currentConfig = saved;
                 updateTray(currentConfig, handleProfileChange, handleAutoStartChange);
@@ -223,51 +211,6 @@ function setupIpcHandlers() {
         try {
             handleAutoStartChange(enabled);
             return ok({ autoStart: currentConfig.autoStart });
-        } catch (error) {
-            return internalError(error.message);
-        }
-    });
-
-    ipcMain.handle('auth-login', async (event, credentials) => {
-        try {
-            const session = await loginUser(credentials.email, credentials.password);
-            return ok(session);
-        } catch (error) {
-            return badRequest(error.message);
-        }
-    });
-
-    ipcMain.handle('auth-register', async (event, credentials) => {
-        try {
-            const session = await registerUser(credentials.email, credentials.password);
-            return created(session);
-        } catch (error) {
-            return badRequest(error.message);
-        }
-    });
-
-    ipcMain.handle('auth-logout', () => {
-        try {
-            const result = logoutUser();
-            return ok(result);
-        } catch (error) {
-            return internalError(error.message);
-        }
-    });
-
-    ipcMain.handle('auth-get-session', () => {
-        try {
-            const session = getLocalSession();
-            return ok(session);
-        } catch (error) {
-            return internalError(error.message);
-        }
-    });
-
-    ipcMain.handle('auth-upgrade-pro', async () => {
-        try {
-            const updated = await upgradeUserToPro();
-            return ok(updated);
         } catch (error) {
             return internalError(error.message);
         }

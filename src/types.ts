@@ -4,16 +4,6 @@ export type CommandType = 'cmd' | 'powershell';
 
 export type TriggerType = 'singlePress' | 'doublePress' | 'longPress';
 
-export type UserPlan = 'free' | 'pro';
-
-export interface UserSession {
-    id: string;
-    email: string;
-    plan: UserPlan;
-    token: string;
-    createdAt: string;
-}
-
 export interface TriggerAction {
     action: ActionType;
     actionValue: string;
@@ -77,11 +67,6 @@ export interface ElectronApi {
     createProfile: (name: string) => Promise<ApiResponse<AppConfig>>;
     renameProfile: (profileId: string, name: string) => Promise<ApiResponse<AppConfig>>;
     deleteProfile: (profileId: string) => Promise<ApiResponse<AppConfig>>;
-    login: (credentials: { email: string; password: string }) => Promise<ApiResponse<UserSession>>;
-    register: (credentials: { email: string; password: string }) => Promise<ApiResponse<UserSession>>;
-    logout: () => Promise<ApiResponse<{ loggedOut: boolean }>>;
-    getSession: () => Promise<ApiResponse<UserSession | null>>;
-    upgradeToPro: () => Promise<ApiResponse<UserSession>>;
     installUpdate: () => Promise<ApiResponse<{ installing: boolean }>>;
     checkForUpdates: () => Promise<ApiResponse<any>>;
     onUpdateReady: (callback: (info: any) => void) => void;

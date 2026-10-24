@@ -183,11 +183,8 @@ function getActiveProfile(config) {
     return active || currentConfig.profiles[0] || defaultConfig.profiles[0];
 }
 
-function createProfile(name, plan = 'free') {
+function createProfile(name) {
     const current = loadConfig();
-    if (plan !== 'pro' && current.profiles.length >= 2) {
-        throw new Error('Free plan allows up to 2 profiles. Upgrade to Pro for unlimited profiles.');
-    }
     const cleanName = String(name || '').trim() || `Profile ${current.profiles.length + 1}`;
     const newId = `profile_${Date.now()}`;
     const newProfile = {
